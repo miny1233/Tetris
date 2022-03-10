@@ -3,6 +3,7 @@
 #include <malloc.h>
 #include<memory.h>
 #include<stdlib.h>
+#include<windows.h>
 static char* output_w;
 static char* moji_buffer;
 static char* output_buffer;
@@ -63,7 +64,9 @@ int output_raw(char *v_raw,int size) {
 	return size;
 }
 void out_push() {
-	system("cls");
+	COORD pos = { 0,0 };
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);// 获取标准输出设备句柄
+	SetConsoleCursorPosition(hOut, pos);//两个参数分别是指定哪个窗体，具体位置
 	printf("%s\n", moji_buffer);
 	printf("%s", output_buffer);
 	memcpy(output_buffer, output_w, (g_height + 2) * (g_width + 3));

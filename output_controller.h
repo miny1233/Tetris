@@ -1,6 +1,6 @@
 #pragma once
-#define g_height 15 //游戏窗口高度
-#define g_width 10  //游戏窗口宽度
+#define g_height 20 //游戏窗口高度
+#define g_width 20  //游戏窗口宽度
 #define SIGN '*'//窗口边框
 #define BLOCK '#'
 #define RAW_MOD 1

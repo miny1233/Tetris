@@ -29,7 +29,7 @@ int main() {
 	init_controller();
 	init_ge(m);
 	game = (GameObject*)malloc(sizeof(GameObject));
-	memcpy(game->image, T, 16);
+	memcpy(game->image, L, 16);
 	game->position_x = 5; game->position_y = 0;
 	make_gameobject(game);
 	threadpool_work();

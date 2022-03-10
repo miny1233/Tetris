@@ -17,8 +17,8 @@ int i = 0;
 int score = 0;
 static void (*replace)();
 int collision(GameObject gameo,int mode) {
-	int px[4] = { -1 }, py[4] = { -1 };
-	int i = 0;
+	int px[4] = { -1,-1,-1,-1 }, py[4] = { -1,-1,-1,-1 };
+	int i = 0,j = 0;
 	switch (mode)
 	{
 	case DOWN_C:
@@ -27,15 +27,16 @@ int collision(GameObject gameo,int mode) {
 				if (gameo.image[y][x]) {
 					px[i] = x;
 					py[i] = y;
-					i++;
 					break;
 				}
 			}
+			i++;
 		}
 		for (i = 0; i < 4; i++) {
 			if (py[i] >= -1) {
-				if (gameo.position_y + py[i] + 1 == g_height)return 1;
-				if (game_world[py[i] + gameo.position_y + 1][px[i] + gameo.position_x])return 1;
+				if (gameo.position_y + py[i] + 1 == g_height) return 1;
+				if (game_world[py[i] + gameo.position_y + 1][px[i] + gameo.position_x]) 
+					return 1;
 			}
 		}
 		return 0;
@@ -43,16 +44,18 @@ int collision(GameObject gameo,int mode) {
 	case LEFT_C:
 		for (int y = 0; y < 4; y++) {
 			for (int x = 0; x < 4; x++) {
-				if (gameo.image[y][x]) {
+				if (gameo.image[y][x] != 0) {
 					px[i] = x;
-					py[i++] = y;
+					py[i] = y;
 					break;
 				}
 			}
+			i++;
 		}
 		for (i = 0; i < 4; i++) {
 			if (px[i] != -1) {
-				if (gameo.position_x + px[i] == 0)return 1;
+				if (gameo.position_x + px[i] <= 0) 
+					return 1;
 				if (game_world[py[i] + gameo.position_y ][px[i] + gameo.position_x - 1])return 1;
 			}
 		}
@@ -63,14 +66,15 @@ int collision(GameObject gameo,int mode) {
 			for (int x = 3; x>=0; x--) {
 				if (gameo.image[y][x]) {
 					px[i] = x;
-					py[i++] = y;
+					py[i] = y;
 					break;
 				}
 			}
+			i++;
 		}
 		for (i = 0; i < 4; i++) {
 			if (px[i] != -1) {
-				if (gameo.position_x + px[i] + 1 == g_width)return 1;
+				if (gameo.position_x + px[i] + 1 >= g_width)return 1;
 				if (game_world[py[i] + gameo.position_y][px[i] + gameo.position_x + 1])return 1;
 			}
 		}
@@ -93,14 +97,14 @@ void make_gameobject(GameObject* object) {
 	gobj = object;
 }
 void g_down() {
-	//int count = 0;
+	render(*gobj, CLEAN_MOD);
 	if (!collision(*gobj, DOWN_C)) {
-		render(*gobj, CLEAN_MOD);
 		gobj->position_y++;
 		render(*gobj, NEW_MOD);
 	}
 	else
 	{
+		render(*gobj, NEW_MOD);
 		CAC_();
 	}
 }
@@ -108,36 +112,38 @@ void g_up()
 {
 	render(*gobj, CLEAN_MOD);
 	rotate(gobj);
+	if (collision(*gobj, LEFT_C)|| collision(*gobj, RIGHT_C)) {
+		for (int i = 0; i < 3; i++)rotate(gobj);
+	}
 	render(*gobj, NEW_MOD);
 }
 void g_left() {
-	//int count = 0;
+	render(*gobj, CLEAN_MOD);
 	if (!collision(*gobj, LEFT_C)) {
-		render(*gobj, CLEAN_MOD);
 		gobj->position_x--;
 		render(*gobj, NEW_MOD);
 	}
+	render(*gobj, NEW_MOD);
 }
 void g_right() {
-	//int count = 0;
+	render(*gobj, CLEAN_MOD);
 	if (!collision(*gobj, RIGHT_C)) {
-		render(*gobj, CLEAN_MOD);
 		gobj->position_x++;
 		render(*gobj, NEW_MOD);
 	}
+	render(*gobj, NEW_MOD);
 }
 void Update(char*) {
 	if (++i == 4) {
-		i = 0; //int count = 0;
-		
+		i = 0;
+		render(*gobj, CLEAN_MOD);
 		if (!collision(*gobj,DOWN_C)) {
-				render(*gobj, CLEAN_MOD);
 				gobj->position_y++;
 				render(*gobj, NEW_MOD);
 		}
 		else
 		{
-			
+			render(*gobj, NEW_MOD);
 			CAC_();
 		}
 	}
