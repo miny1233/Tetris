@@ -38,8 +38,6 @@ jobs:
     - name: Build c++ project
   # You may pin to the exact commit or the version.
   # uses: nicledomaS/cmake_build_action@0b1ee7f06969385fd8b3177d64db29456867ada0
-  uses: nicledomaS/cmake_build_action@v1.4
-  with:
     # Git submodule update
     submodule_update: # optional, default is OFF
     # Cmake args (example -D<ARG1>=value;-D<ARG1>=value)
