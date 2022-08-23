@@ -1,0 +1,3 @@
+D:/Project/Tetris/cmake-build-debug/CMakeFiles/main.dir
+D:/Project/Tetris/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Project/Tetris/cmake-build-debug/CMakeFiles/rebuild_cache.dir
